@@ -1,4 +1,4 @@
-## Finding Trip 
+
 
 # Trip Sorter
 
@@ -11,8 +11,9 @@
 # Assumptions 
 
 1. If the fastest trip to a destination has same duration (cheapest in fastest is considered)
+2. Departure and arrival can not be same
 
-## How to install and use
+# How to install and use
 
 1. clone this repo `https://github.com/vishnuvardhana/angular-trip-sorter.git`
 2. cd `angular-trip-sorter`
@@ -21,7 +22,7 @@
 5. To test locally `grunt serve`  
 6. To build  `grunt build` (dist/ folder will have distributable content)
 
-##Road Map 
+#Road Map 
 
 1. To show all possible paths
 
