@@ -1,0 +1,53 @@
+
+
+
+
+.font-light-color {
+  color:#9e9e9e;
+}
+.search-button{float:right;
+	background: #3F51B5!important;}
+.fr{
+	float:right;
+
+}
+.fl{
+	float:left;
+}
+.fr , .fl{
+	color:#262526;
+}
+
+
+.md-list-item-text{
+	background: white;
+	padding: 5px;
+	margin-top:10px;
+
+}
+.light-text-color {
+	color:#7E7C7E;
+}
+.table{
+	width:100%;
+}
+.text-align-center{
+	text-align: center;
+}
+.strike-price{
+	 text-decoration: line-through;
+}
+.md-2-line{
+	background: #EFEEF0;
+	
+	height:100px;
+}
+
+md-list{
+	background: white;
+	padding: 10px;
+
+}
+ td {
+	font-weight: bold;
+}
