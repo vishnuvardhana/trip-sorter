@@ -20,9 +20,11 @@ angular
         'angular-loading-bar',
         'ngAnimate'
     ])
-    
+    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.includeSpinner = false;
+    }])
     .config(function($mdThemingProvider) {
-        //setting theme to match the wire frame used in demo video
+        //setting theme for given wireframe
         $mdThemingProvider.theme('default')
             .primaryPalette('pink', {
                 'default': '500', 
@@ -30,9 +32,9 @@ angular
                 'hue-2': '800', 
 
             })
-    })
+            
 
-    //url for getting remote data
+    })
     .constant('API_URL', 'response.json')
     .constant('underscore',
         window._
@@ -47,6 +49,7 @@ angular
                 controller: 'MainCtrl',
                 controllerAs: 'main'
             })
+
             .otherwise({
                 redirectTo: '/'
             });
