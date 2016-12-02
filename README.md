@@ -1,12 +1,31 @@
-# travel-finder
+## Finding Trip 
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+# Trip Sorter
 
-## Build & development
+1. Trip sorter aims to show fastest(cost - discount) and cheapest routes for a given soruce and destination using graph search.
 
-Run `grunt` for building and `grunt serve` for preview.
+2. All possible trips are acquired from the json file in `app/scripts/response.json`
 
-## Testing
+3. Given a valid route it will have any/all modes of transportation (train,bus,car) from source to destination.
 
-Running `grunt test` will run the unit tests with karma.
+# Assumptions 
+
+1. If the fastest trip to a destination has same duration (cheapest in fastest is considered)
+
+## How to install and use
+
+1. clone this repo `https://github.com/vishnuvardhana/angular-trip-sorter.git`
+2. cd `angular-trip-sorter`
+3. `npm install`
+4. `bower install`
+5. To test locally `grunt serve`  
+6. To build  `grunt build` (dist/ folder will have distributable content)
+
+##Road Map 
+
+1. To show all possible paths
+
+ 
+
+
+
