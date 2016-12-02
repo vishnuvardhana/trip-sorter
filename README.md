@@ -1,7 +1,8 @@
 
-[https://tripsorter.herokuapp.com/#/] Demo Link
+[Demo Link](https://tripsorter.herokuapp.com/#/)
 
-**Please note finding all paths still in progress
+
+**Please note finding all paths is yet to be completed
 
 # Trip Sorter
 
