@@ -1,9 +1,6 @@
 
 [Demo Link](https://tripsorter.herokuapp.com/#/)
 
-
-**Please note finding all paths is yet to be completed
-
 # Trip Sorter
 
 1. Trip sorter aims to show fastest(cost - discount) and cheapest routes for a given soruce and destination using graph search.
@@ -26,9 +23,7 @@
 5. To test locally `grunt serve`  
 6. To build  `grunt build` (dist/ folder will have distributable content)
 
-#Road Map 
 
-1. To show all possible paths
 
  
 

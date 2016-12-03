@@ -12,7 +12,7 @@
             <md-card-title>
                 <div layout="column" layout-align="start" flex flex-xs="100">
                     <div layout="row" layout-align="start" flex class="md-padding">
-                        <md-input-container flex="45" flex-xs="45">
+                        <md-input-container flex="45" flex-xs="50">
                             <label class="font-light-color"> Departure City </label>
                             <md-select name="favoriteColor" ng-model="data.selectedDeparture">
                                 <md-optgroup label="Departure City">
@@ -22,12 +22,12 @@
                                 </md-optgroup>
                             </md-select>
                         </md-input-container>
-                        <div flex="10" class="text-align-center" flex-xs="10">
+                        <div hide-xs flex="10" class="text-align-center" >
                             <md-button class="md-fab md-button md-ink-ripple hidden-xs" ng-click="userEvents.swapAndSearch()">
                                 <->
                             </md-button>
                         </div>
-                        <md-input-container flex="45" flex-xs="45">
+                        <md-input-container flex="45" flex-xs="50">
                             <label class="font-light-color"> Arrival City </label>
                             <md-select name="favoriteColor" ng-model="data.selectedArrival">
                                 <md-optgroup label="Arrival City">
@@ -38,15 +38,15 @@
                             </md-select>
                         </md-input-container>
                     </div>
-                    <div layout="row" layout-align="start" class="md-padding">
-                        <div flex="50" flex-xs="50">
+                    <div layout="column" layout-align="center center " class="md-padding">
+                        <div  flex="100">
                             <md-radio-group ng-model="data.sortBy" layout="row" ng-click="userEvents.searchDeals()">
                                 <md-radio-button value="1" class="md-primary" ng-style="{'display':'inline'}">Cheapest</md-radio-button>
                                 <md-radio-button value="2" ng-style="{'display':'inline'}"> Fastest </md-radio-button>
-                                <md-radio-button value="3" ng-style="{'display':'inline'}">All <span ng-if="data.recommendedResults.numberOfDeals">({{data.recommendedResults.numberOfDeals}})</span></md-radio-button>
+                                <md-radio-button value="3" ng-style="{'display':'inline'}">All <span ng-if="data.recommendedResults.totalPossiblePath">({{data.recommendedResults.totalPossiblePath}})</span></md-radio-button>
                             </md-radio-group>
                         </div>
-                        <div flex="50" flex-xs="50">
+                        <div  flex="100" class="md-padding">
                             <md-button class="md-raised md-primary search-button" ng-click="userEvents.searchDeals()">search</md-button>
                             <md-button ng-show="data.recommendedResults.deals" class="md-raised md-default fr" ng-click="userEvents.resetSearch(true)">Reset</md-button>
                         </div>
@@ -56,28 +56,79 @@
         </md-card>
         <md-card class="md-whiteframe-1dp md-padding" ng-show="data.recommendedResults.deals">
             <md-content>
+                <div flex="100" flex-xs="100">
+                    <md-switch layout-align="center" ng-model="data.considerDiscount" aria-label="Consider Discounts" flex="100" ng-if="data.sortBy==='1'" ng-click="userEvents.searchDeals()">
+                        Consider Discounted Cost
+                    </md-switch>
+                </div>
                 <md-list>
-                    <md-list-item class="md-2-line" ng-repeat="deal in data.recommendedResults.deals" layout="row" layout-align="start" flex="50" flex-xs="100">
-                        <div class="md-list-item-text  ">
-                            <h3> <div class="fl">{{deal.departure}} > {{deal.arrival}}</div> <div class="fr" ><b>  <span >  {{ deal.cost }}</span></b>   {{data.recommendedResults.currency}}
+                    <div ng-if="data.sortBy!=='3'">
+                        <md-list-item class="md-2-line" ng-repeat="deal in data.recommendedResults.deals.paths" layout="row" layout-align="center center" flex="100" flex-xs="100">
+                            <div class="md-list-item-text  ">
+                                <h3> <div class="fl">{{deal.departure}} > {{deal.arrival}}</div> <div class="fr" ><b>  <span >  {{ deal.cost }}</span></b>   {{data.recommendedResults.currency}}
                             
                             </div></h3>
-                            <h4> <span class="light-text-color">{{deal.transport}}</span>  {{deal.reference}} <span class="light-text-color">  for  {{deal.duration.h}}h  {{deal.duration.m}} </span></h4>
-                        </div>
-                    </md-list-item>
-                    <md-list-item class="md-2-line" ng-if="data.recommendedResults.totalCost" layout="row" layout-align="start" flex="50" flex-xs="100">
-                        <div class="md-list-item-text ">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2">Total</td>
-                                        <td colspan="2" class="text-align-center">{{data.recommendedResults.totalDuration.h}} h {{data.recommendedResults.totalDuration.m}} </td>
-                                        <td colspan="2" class="fr">{{data.recommendedResults.totalCost}} {{data.recommendedResults.currency}}</td>
-                                    </tr>
-                                </tbody>
-                                <table>
-                        </div>
-                    </md-list-item>
+                                <h4> <span class="light-text-color">{{deal.transport}}</span>  {{deal.paths.reference}} <span class="light-text-color">  for  {{deal.duration.h}}h  {{deal.duration.m}} </span></h4>
+                            </div>
+                        </md-list-item>
+                        <md-list-item class="md-2-line" ng-if="data.sortBy!=='3'" layout="row" layout-align="start" flex="100" flex-xs="100">
+                            <div class="md-list-item-text ">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">Total</td>
+                                            <td colspan="2" class="text-align-center">{{data.recommendedResults.deals.calculations.totalDuration.h}} h {{data.recommendedResults.deals.calculations.totalDuration.m}} </td>
+                                            <td colspan="2" class="fr">{{data.recommendedResults.deals.calculations.totalCost}} {{data.recommendedResults.currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </md-list-item>
+                    </div>
+                    <div ng-if="data.sortBy==='3'">
+                        <v-accordion class="vAccordion--default" multiple>
+                            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+
+                                <md-button class="md-raised md-primary " ng-click="$accordion.expandAll()">Expand All Paths</md-button>
+                                <md-button class="md-raised" ng-click="$accordion.collapseAll()">Collapse all paths</md-button>
+                                
+                            </section>
+                            
+                            <!-- add expanded attribute to open the section -->
+                            <v-pane ng-repeat="deal in data.recommendedResults.deals">
+                                <v-pane-header>
+                                    {{"Path-" + ($index+1)}} involving {{deal.paths.length}} cities
+                                </v-pane-header>
+                                <v-pane-content>
+                                    <h5 class="md-title">Cost  : <b>{{deal.calculations.totalCost}} </b> {{data.recommendedResults.currency}}  Time: <b>{{deal.calculations.totalDuration.h}} h {{deal.calculations.totalDuration.h}} m</b></h5>
+                                    <div class="md-1-line all-paths" ng-repeat="path in deal.paths" layout="row" layout-wrap>
+                                        <div class="md-item-text md-whiteframe-z1 all-paths" flex>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>From : <span class="color-red">{{path.departure}}</span>
+                                                        </td>
+                                                        <td>To : <span class="color-green">{{path.arrival}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Cost:<b>{{path.cost}}  {{data.recommendedResults.currency}}</b>
+                                                        </td>
+                                                        <td>available discount :(<b>{{path.discount}} %  )</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="light-text-color">{{path.transport}}</span> {{path.reference}} <span class="light-text-color">  for  {{path.duration.h}}h  {{deal.path.m}}m </span> </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </v-pane-content>
+                            </v-pane>
+                        </v-accordion>
+                    </div>
                 </md-list>
             </md-content>
         </md-card>

@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-    .module('travelFinderApp', [
+    .module('travelFinderApp', ['vAccordion',
         'ngAnimate',
         'ngCookies',
         'ngResource',
@@ -18,7 +18,9 @@ angular
         'ngTouch',
         'ngMaterial',
         'angular-loading-bar',
-        'ngAnimate'
+        'angAccordion'
+
+
     ])
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;

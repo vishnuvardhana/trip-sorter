@@ -19,7 +19,7 @@ angular.module('travelFinderApp')
     $scope.data.selectedArrival = "";
     $scope.data.sortBy = "1";
     $scope.data.recommendedResults = {};
-    $scope.data.considerDiscount = false;
+    $scope.data.considerDiscount = true;
 
     /**
      * [showValidationErrors common function that calls material alert box to show warning message]
@@ -48,14 +48,14 @@ angular.module('travelFinderApp')
     }
 
     function initiatePage() {
-        $timeout(function() {
-            //get the data and populate departure and arrival cities respectively
-            getResponseData().then(function(response) {
-                var deals = response.data.deals;
-                $scope.data.departureCities = tripSorterFactory.sortArray(underscore.uniq(underscore.collect(deals, 'departure')));
-                $scope.data.arrivalCities = tripSorterFactory.sortArray(underscore.uniq(underscore.collect(deals, 'arrival')));
-            })
-        }, 1000);
+        
+        //get the data and populate departure and arrival cities respectively
+        getResponseData().then(function(response) {
+            var deals = response.data.deals;
+            $scope.data.departureCities = tripSorterFactory.sortArray(underscore.uniq(underscore.collect(deals, 'departure')));
+            $scope.data.arrivalCities = tripSorterFactory.sortArray(underscore.uniq(underscore.collect(deals, 'arrival')));
+        })
+       
     }
     initiatePage();
     
@@ -79,7 +79,9 @@ angular.module('travelFinderApp')
         if (isTotalReset) {
             $scope.data.selectedDeparture = "";
             $scope.data.selectedArrival = "";
+            $scope.data.considerDiscount = true;
         }
+
         $scope.data.recommendedResults = {};
     }
 
@@ -101,31 +103,26 @@ angular.module('travelFinderApp')
             $scope.userEvents.resetSearch(false);
             var deals = response.data.deals;
             var currency = response.data.currency;
-            var totalCalculations = "";
-            var bestTravelRoutes = tripSorterFactory.createGraphAndGetBestPath(deals, $scope.data.departureCities, $scope.data.arrivalCities, $scope.data.selectedDeparture, $scope.data.selectedArrival);
+            var  tripRoutes = {};
+            var cachedTrip   = tripSorterFactory.isACachedSearch($scope.data.selectedDeparture,$scope.data.selectedArrival,$scope.data.considerDiscount);  
+            tripRoutes = cachedTrip ? tripSorterFactory.returnCachedSearch():tripSorterFactory.createGraphAndGetDeals(deals, $scope.data.departureCities, $scope.data.arrivalCities, $scope.data.selectedDeparture, $scope.data.selectedArrival,$scope.data.considerDiscount);
             $scope.data.recommendedResults.currency = currency;
-
+            $scope.data.recommendedResults.totalPossiblePath =  tripRoutes.totalPossiblePath;
             //assigning results based on how user has filtered
             switch ($scope.data.sortBy) {
                 case "1":
-                    $scope.data.recommendedResults.deals = bestTravelRoutes.cheapest;
+                    $scope.data.recommendedResults.deals = tripRoutes.cheapest;
+
                     break;
                 case "2":
-                    $scope.data.recommendedResults.deals = bestTravelRoutes.fastest;
+                    $scope.data.recommendedResults.deals = tripRoutes.fastest;
                     break;
                 case "3":
-                    $scope.data.recommendedResults.deals = validDestinations;
-                    $scope.data.recommendedResults.totalCost = totalCalculations.totalCost;
-                    $scope.data.recommendedResults.totalDuration = totalCalculations.totalDuration;
+
+                    $scope.data.recommendedResults.deals = tripRoutes.allTrips;
+                    
                     break;
             }
-            //show total values only when number of deals is more than 1
-            if ($scope.data.recommendedResults.deals.length > 1) {
-                totalCalculations = tripSorterFactory.calculateTotalTimeAndCost($scope.data.recommendedResults.deals);
-                $scope.data.recommendedResults.totalCost = totalCalculations.totalCost;
-                $scope.data.recommendedResults.totalDuration = totalCalculations.totalDuration;
-            }
-            return true;
         });
 
 
